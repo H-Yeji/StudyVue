@@ -6,13 +6,14 @@ import HomeComponent from "@/components/HomeComponent.vue";
 // import TestComponent from "@/components/TestComponent.vue";
 
 import { practiceRouter } from "./practiceRouter";
+import { memberRouter } from "./memberRouter";
 
 const routes = [
     {
         // path로도 라우팅이 가능하고, name으로도 라우팅 가능 
         // name으로 라우팅하는 경우는 js 코드 내에서 라우팅하는 경우 
-        path: '/home',
-        name: 'HOME',
+        path: '/',
+        name: 'HomeComponent',
         component: HomeComponent
     },
     // { 
@@ -20,7 +21,8 @@ const routes = [
     //     name: 'TEST',
     //     component: TestComponent
     // }
-    ...practiceRouter // 이렇게하면 practiceRouter에 있는거 쓸 수 있음 
+    ...practiceRouter, // 이렇게하면 practiceRouter에 있는거 쓸 수 있음 
+    ...memberRouter
 ]
 
 const router = createRouter({

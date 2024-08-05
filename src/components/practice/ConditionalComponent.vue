@@ -3,6 +3,7 @@
     <br>
     <v-btn @click="login" color="#FFE0B2">로그인</v-btn>&nbsp;
     <v-btn @click="logout" color="#BDBDBD">로그아웃</v-btn>
+    <!-- 조건문걸기 -->
     <div v-if="isLogined">WELCOME😀</div>
     <div v-else>로그인해주세요😀 </div>
 

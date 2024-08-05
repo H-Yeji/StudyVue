@@ -2,8 +2,8 @@
   <!-- <div>hello world</div> 여기있던 import한 helloword는 지움 -->
   <!-- <HelloWorld /> -->
   <!-- router-view를 통해 app.vue에서 화면 라우팅 -->
-   <!-- <HeaderComponent /> -->
    <v-app>
+      <HeaderComponent />
       <v-main>
         <router-view /> 
       </v-main>
@@ -18,14 +18,14 @@
 <script>
 // App.vue는 Vue 애플리케이션의 루트 컴포넌트 (재활용이 가능한 화면)
 // import HelloWorld from './components/HelloWorld.vue'
-// import HeaderComponent from './components/HeaderComponent.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
 // import FooterComponent from './components/FooterComponent.vue'
 
 export default {
   name: 'App',
   components: {
     // HelloWorld // 위에 import 해온거 사용하겠다 
-    // HeaderComponent,
+    HeaderComponent,
     // FooterComponent
   }
 }

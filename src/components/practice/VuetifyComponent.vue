@@ -87,7 +87,7 @@
      </v-dialog>
 
      <v-btn href="/practice/modeling">일반 라우팅</v-btn>
-     <v-btn :to="{path: 'practice/modeling'}">SPA라우팅(router 기능활용)</v-btn>
+     <v-btn :to="{path: '/practice/modeling'}">SPA라우팅(router 기능활용)</v-btn>
      <v-btn :to="{name: 'ModelingComponent'}">SPA라우팅(name 호출)</v-btn> 
   </template>
   
