@@ -24,7 +24,8 @@
                             ></v-text-field>
                            <v-row>
                             <v-col cols="6">
-                                <v-btn color="secondary" block>비밀번호 변경</v-btn>
+                                <!-- showPasswordModel이 작동해서 클릭하면 화면 열료 -->
+                                <v-btn color="secondary" @click="showPasswordModal" block>비밀번호 변경</v-btn>
                             </v-col>
                             <v-col cols="6">
                                 <v-btn type="submit" color="primary" block>로그인</v-btn>
@@ -35,18 +36,34 @@
                 </v-card>
             </v-col>
         </v-row>
+
+        <!-- 비밀번호 변경 modal 넣어보께 -->
+         <!-- resetPassword가 true가 될 때 해당 모달창이 보여짐 -->
+         <!--  @update:dialog => modal 컴포넌트가 update:dialog라는 이벤트를 발생시킬 때 싱행될 이벤트 핸들러 정의 -->
+         <!--  $event => 자식 요소로부터 전달된 값이 들어옴 (true/ false전달) -->
+        <ResetPasswordModal
+            v-model="resetPassword"
+            @update:dialog="resetPassword = $event"
+        >  
+        </ResetPasswordModal>
     </v-container>
   </template>
   
   <script>
   import axios from 'axios';
   import {jwtDecode} from 'jwt-decode';
+  import ResetPasswordModal from './ResetPasswordModal.vue';
+
   export default {
+    components: {
+        ResetPasswordModal
+    },
     data() {
         return{
             email: "",
             password: "",
-            errorMessage: ""
+            errorMessage: "",
+            resetPassword: false // true이면 보임 false이면 안보임 
         }
     },
     methods: {
@@ -77,6 +94,9 @@
                 alert(errorMessage)
 
             }
+        },
+        showPasswordModal() {
+            this.resetPassword = true;
         }
 
     }
