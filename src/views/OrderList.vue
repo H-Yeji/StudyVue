@@ -1,6 +1,6 @@
 <template>
     <OrderListComponent 
-        isAdmin="true"
+    :isAdmin="true"
     
     />
 </template>
