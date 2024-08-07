@@ -29,7 +29,7 @@
             </v-col>
             <v-col cols="auto" v-if="!isAdmin">
                  <v-btn color="secondary" class="mr-2">장바구니</v-btn>
-                 <v-btn color="secondary">주문하기</v-btn>
+                 <v-btn @click="createOrder" color="secondary">주문하기</v-btn>
             </v-col>
 
             <v-col cols="auto" v-if="isAdmin">
@@ -72,7 +72,7 @@
                                     <!-- 주문선택 select box로 받음 -->
                                     <td v-if="!isAdmin" class="text-center">
                                         <input 
-                                            type="checkBox"
+                                            type="checkbox"
                                             v-model="selected[p.id]"
                                         >
                                     </td>
@@ -162,7 +162,9 @@ export default {
 
                 // localhost:8080/prduct/list?category=fruites&size=5&page=0 이런식으로 나감 
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/product/list`, {params})
-                const additionalData = response.data.result.content;
+                // 아래 map을 활용 => entity에 quantity=0을 새로 추가한거랑 같은 것
+                // 주문 수량에 처음에 0으로 깔림 -> 화면에서 주문 수량을 늘리면 productList에 있는 p가 바뀜 
+                const additionalData = response.data.result.content.map(p => ({...p, quantity:0})); 
                 this.productList = [...this.productList, ...additionalData]; // 두 데이터를 합치는 코드 
 
                 // (1) 
@@ -191,7 +193,37 @@ export default {
             if (isBottom && !this.isLastPage && !this.isLoading) {
                 this.loadProduct();
             }
-        }
+        },
+        async createOrder() { // 주문하기 버튼 클릭 후 호출
+            // 객체에서 key값 뽑아내고 그 중 true인 key만 뽑아냄 
+            console.log(this.selected)
+            const orderProducts = Object.keys(this.selected) 
+                                        .filter(key=>this.selected[key])
+                                        .map(key=>{
+                                            const product = this.productList.find(p=>p.id==key)
+                                            return {productId:product.id, productCnt:product.quantity};
+                                        });
+            console.log(orderProducts);
+            if (orderProducts.length < 1) {
+                alert("주문대상 물건이 없습니다.");
+                return;
+            }
+            // 몇개 주문할거임 ?
+            const yesOrNo = confirm(`${orderProducts.length}개 주문할거?`);
+            if (!yesOrNo) {
+                console.log("주문 취소됨");
+                return;
+            }
+
+            try {
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/order/create`, orderProducts);
+                alert('성 공 두 둥')
+                window.location.reload();
+            } catch(e) {
+                console.log(e);
+                alert('주문 실패임')
+            } 
+        }   
     }
 }
 </script>
