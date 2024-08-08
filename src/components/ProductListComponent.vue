@@ -22,14 +22,14 @@
                             </v-text-field>
                         </v-col>
                         <v-col cols="auto">
-                            <v-btn type="submit">검색</v-btn>
+                            <v-btn type="submit" color="grey">검색</v-btn>
                         </v-col>
                     </v-row>
                 </v-form>
             </v-col>
             <v-col cols="auto" v-if="!isAdmin">
-                 <v-btn color="secondary" class="mr-2">장바구니</v-btn>
-                 <v-btn @click="createOrder" color="secondary">주문하기</v-btn>
+                 <v-btn @click="addCart" color="grey" class="mr-2">장바구니</v-btn>
+                 <v-btn @click="createOrder" color="success">주문하기</v-btn>
             </v-col>
 
             <v-col cols="auto" v-if="isAdmin">
@@ -91,8 +91,13 @@
 
 <script>
 import axios from 'axios';
+import {mapGetters} from 'vuex';
+
 export default {
     props: ['isAdmin', 'pageTitle'],
+    computed: {
+        ...mapGetters(['getProductsInCart'])
+    },
     data() {
         return {
             searchType: 'optional',
@@ -223,6 +228,19 @@ export default {
                 console.log(e);
                 alert('주문 실패임')
             } 
+        },
+        addCart() {
+            const orderProducts = Object.keys(this.selected) 
+                                        .filter(key=>this.selected[key])
+                                        .map(key=>{
+                                            const product = this.productList.find(p=>p.id==key)
+                                            return {id:product.id, name:product.name, quantity:product.quantity}; //product에 있는 변수 
+                                        });
+            console.log(orderProducts);
+            // orderProducts 하나씩 돌려서 
+            orderProducts.forEach(p => this.$store.dispatch('addCart', p));
+            console.log(this.getProductsInCart);
+            // window.location.reload();
         }   
     }
 }

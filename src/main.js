@@ -5,6 +5,7 @@ import router from '@/router/index.js' // router import (라우터 쓰겠다)
 import vuetify from './plugins/vuetify';
 import '@mdi/font/css/materialdesignicons.css'
 import axios from 'axios';
+import store from './store';
 
 // createApp(App).mount('#app')
 const app = createApp(App);
@@ -54,4 +55,5 @@ axios.interceptors.response.use(
 
 app.use(router)
 app.use(vuetify)
+app.use(store)
 app.mount('#app');

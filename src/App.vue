@@ -7,8 +7,8 @@
       <v-main>
         <router-view /> 
       </v-main>
+      <FooterComponent />
    </v-app>
-   <!-- <FooterComponent /> -->
 </template>
 
 <!-- template에는 html의 body같은 코드가 들어가고,
@@ -19,14 +19,14 @@
 // App.vue는 Vue 애플리케이션의 루트 컴포넌트 (재활용이 가능한 화면)
 // import HelloWorld from './components/HelloWorld.vue'
 import HeaderComponent from './components/HeaderComponent.vue'
-// import FooterComponent from './components/FooterComponent.vue'
+import FooterComponent from './components/FooterComponent.vue'
 
 export default {
   name: 'App',
   components: {
     // HelloWorld // 위에 import 해온거 사용하겠다 
     HeaderComponent,
-    // FooterComponent
+    FooterComponent
   }
 }
 </script>
